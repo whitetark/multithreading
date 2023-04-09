@@ -20,6 +20,8 @@ public class Hole {
     }
 
     public boolean intersection (int x, int y) {
-        return x >= this.x && x <= this.x + XSIZE && y >= this.y && y <= this.y + YSIZE;
+        boolean withinXRange = x >= this.x && x <= this.x + XSIZE;
+        boolean withinYRange = y >= this.y && y <= this.y + YSIZE;
+        return withinXRange && withinYRange;
     }
 }

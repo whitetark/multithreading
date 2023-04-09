@@ -14,7 +14,7 @@ public class BallCanvas extends JPanel {
     public void add(Hole h) {this.holes.add(h);}
     public ArrayList<Hole> getHoles() { return this.holes;}
     public ArrayList<Ball> getBalls() { return this.balls;}
-    public void remove(Ball b){ this.balls.remove(b);}
+    public synchronized void remove(Ball b){ this.balls.remove(b);}
 
 
     @Override

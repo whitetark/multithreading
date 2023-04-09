@@ -18,18 +18,20 @@ public class BounceFrame extends JFrame {
         this.setTitle("Balls&Holes");
 
         this.canvas = new BallCanvas();
+        /*
         canvas.add(new Hole(380, 10)); //N
         canvas.add(new Hole(380, 270)); //S
         canvas.add(new Hole(10, 10)); //NW
         canvas.add(new Hole(10, 270)); //SW
         canvas.add(new Hole(760, 10)); //NE
         canvas.add(new Hole(760, 270)); //SE
-
+         */
         JPanel hitScorePanel =  new JPanel();
         hitScorePanel.setBackground(Color.lightGray.brighter());
         JLabel hitScoreLabel = new JLabel(String.valueOf(BounceFrame.hitScore));
         BounceFrame.hitScoreLabel = hitScoreLabel;
         hitScorePanel.add(hitScoreLabel);
+
         System.out.println("In Frame Thread name = " + Thread.currentThread().getName());
         Container content = this.getContentPane();
         content.add(hitScorePanel, BorderLayout.NORTH);
@@ -42,18 +44,16 @@ public class BounceFrame extends JFrame {
         JButton buttonAddTen = new JButton("Add 10");
         JButton buttonAddHundred = new JButton("Add 100");
         JButton buttonAddThousand = new JButton("Add 1000");
+        JButton buttonAddRed = new JButton("Red");
+        JButton buttonAddBlue = new JButton("Blue");
+        JButton buttonTest = new JButton("Test");
+
 
         buttonStart.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                Ball b = new Ball(canvas);
-                canvas.add(b);
-
-                BallThread thread = new BallThread(b);
-                thread.start();
-                System.out.println("Created Ball = " + thread.getName());
+                createBall(0);
             }
         });
 
@@ -61,12 +61,7 @@ public class BounceFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(int i = 0; i<10; i++){
-                    Ball b = new Ball(canvas);
-                    canvas.add(b);
-
-                    BallThread thread = new BallThread(b);
-                    thread.start();
-                    System.out.println("Created Ball = " + thread.getName());
+                    createBall(0);
                 }
             }
         });
@@ -75,12 +70,7 @@ public class BounceFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(int i = 0; i<100; i++){
-                    Ball b = new Ball(canvas);
-                    canvas.add(b);
-
-                    BallThread thread = new BallThread(b);
-                    thread.start();
-                    System.out.println("Created Ball = " + thread.getName());
+                    createBall(0);
                 }
             }
         });
@@ -89,25 +79,57 @@ public class BounceFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(int i = 0; i<1000; i++){
-                    Ball b = new Ball(canvas);
-                    canvas.add(b);
-
-                    BallThread thread = new BallThread(b);
-                    thread.start();
-                    System.out.println("Created Ball = " + thread.getName());
+                    createBall(0);
                 }
             }
         });
 
+        buttonAddRed.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createBall(1);
+            }
+        });
+
+        buttonAddBlue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < 100; i++) {
+                    createBall(-1);
+                }
+            }
+        });
+        buttonTest.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < 500; i++) {
+                    createBall(-1);
+                }
+                createBall(1);
+            }
+        });
+
         buttonPanel.add(buttonStart);
-        buttonPanel.add(buttonAddTen);
-        buttonPanel.add(buttonAddHundred);
-        buttonPanel.add(buttonAddThousand);
+        buttonPanel.add(buttonAddBlue);
+        buttonPanel.add(buttonAddRed);
+        buttonPanel.add(buttonTest);
+        //buttonPanel.add(buttonAddTen);
+        //buttonPanel.add(buttonAddHundred);
+        //buttonPanel.add(buttonAddThousand);
 
         content.add(buttonPanel, BorderLayout.SOUTH);
     }
     public static synchronized void hitScoreInc() {
         hitScore++;
         hitScoreLabel.setText(String.valueOf(hitScore));
+    }
+
+    public void createBall(int priority){
+        Ball b = new Ball(canvas, priority);
+        canvas.add(b);
+
+        BallThread thread = new BallThread(b);
+        thread.start();
+        System.out.println("Created Ball = " + thread.getName());
     }
 }

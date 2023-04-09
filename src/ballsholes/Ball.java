@@ -11,10 +11,25 @@ class Ball {
     private int y = 0;
     private int dx = 2;
     private int dy = 2;
+    private int priority = 0;
+    private Color color;
 
-
-    public Ball(BallCanvas c){
+    public Ball(BallCanvas c, int priority){
         this.canvas = c;
+        this.priority = priority;
+
+        switch(priority){
+            case -1:
+                this.color = Color.blue;
+                break;
+            case 1:
+                this.color = Color.red;
+                break;
+            default:
+                this.color = Color.darkGray;
+                break;
+        }
+/*
         if(Math.random()<0.5){
             x = new Random().nextInt(this.canvas.getWidth());
             y = 0;
@@ -22,10 +37,13 @@ class Ball {
             x = 0;
             y = new Random().nextInt(this.canvas.getHeight());
         }
+ */
+        this.x = 100;
+        this.y = 100;
     }
 
     public void draw (Graphics2D g2){
-        g2.setColor(Color.darkGray);
+        g2.setColor(this.color);
         g2.fill(new Ellipse2D.Double(x,y,XSIZE,YSIZE));
     }
 
@@ -60,5 +78,9 @@ class Ball {
             }
         }
         return false;
+    }
+
+    public int getPriority(){
+        return this.priority;
     }
 }

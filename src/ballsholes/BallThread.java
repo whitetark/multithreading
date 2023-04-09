@@ -5,19 +5,32 @@ public class BallThread extends Thread {
 
     public BallThread(Ball ball){
         b = ball;
+        setPriority(b.getPriority() == 1 ? Thread.MAX_PRIORITY : Thread.MIN_PRIORITY);
+        /*
+        switch(ball.getPriority()){
+            case -1:
+                setPriority(Thread.MIN_PRIORITY);
+                break;
+            case 1:
+                setPriority(Thread.MAX_PRIORITY);
+                break;
+            default:
+                break;
+        }
+         */
     }
     @Override
     public void run(){
-        try{
-            for(int i=1; i<10000; i++){
-                if(b.intersectsWithHoles()){
+        try {
+            while (true){
+                if (b.intersectsWithHoles()) {
                     BounceFrame.hitScoreInc();
                     System.out.println("Ball Hit Hole = " + Thread.currentThread().getName());
                     this.interrupt();
                 }
-                b.move();
-                System.out.println("Moving Ball = " + Thread.currentThread().getName());
-                Thread.sleep(5);
+            b.move();
+            System.out.println("Moving Ball = " + Thread.currentThread().getName());
+            Thread.sleep(5);
             }
         } catch(InterruptedException ex){
 
