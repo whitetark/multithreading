@@ -1,15 +1,17 @@
 package printer;
 
 public class Syncer {
-    private boolean permission;
+    private Symbol starter;
+    private Symbol[] symbols;
     private int runs = 0;
 
-    public Syncer(boolean permission) {
-        this.permission = permission;
+    public Syncer(Symbol starter, Symbol[] symbols) {
+        this.starter = starter;
+        this.symbols = symbols;
     }
 
-    public synchronized void then(boolean permission, Runnable runnable) {
-        while (this.permission != permission) {
+    public synchronized void then(Symbol symbol, Runnable runnable) {
+        while (this.starter != symbol) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -17,7 +19,12 @@ public class Syncer {
             }
         }
 
-        this.permission = !this.permission;
+        int index = findIndex(symbols, symbol);
+        try{
+            this.starter = symbols[index + 1];
+        } catch(Exception e){
+            this.starter = symbols[0];
+        }
         runnable.run();
         runs++;
 
@@ -26,5 +33,26 @@ public class Syncer {
         }
 
         notifyAll();
+    }
+
+    public int findIndex(Symbol[] arr, Symbol t)
+    {
+        if (arr == null) {
+            return -1;
+        }
+
+        int len = arr.length;
+        int i = 0;
+
+        while (i < len) {
+
+            if (arr[i] == t) {
+                return i;
+            }
+            else {
+                i = i + 1;
+            }
+        }
+        return -1;
     }
 }

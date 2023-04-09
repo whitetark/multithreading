@@ -6,23 +6,22 @@ public class Main {
     public static void main(String[] args) {
         try{
             int choose = System.in.read();
-            Symbol minusSymbol = new Symbol('-');
-            Symbol dashSymbol = new Symbol('|');
+            Symbol horSymbol = new Symbol('-');
+            Symbol vertSymbol = new Symbol('|');
+            Symbol starSymbol = new Symbol('*');
+            Symbol[] symbols = {horSymbol, vertSymbol, starSymbol};
 
             if(choose == (int)'0'){
-                AsyncSymbolThread minusSymbolThread = new AsyncSymbolThread(minusSymbol);
-                AsyncSymbolThread dashSymbolThread = new AsyncSymbolThread(dashSymbol);
-
-                minusSymbolThread.start();
-                dashSymbolThread.start();
+                for (int i = 0; i < symbols.length; i++) {
+                    AsyncSymbolThread symbolThread = new AsyncSymbolThread(symbols[i]);
+                    symbolThread.start();
+                }
             } else{
-                Syncer syncer = new Syncer(false);
-
-                SyncSymbolThread minusSymbolThread = new SyncSymbolThread(syncer, false, minusSymbol);
-                SyncSymbolThread dashSymbolThread = new SyncSymbolThread(syncer, true, dashSymbol);
-
-                minusSymbolThread.start();
-                dashSymbolThread.start();
+                Syncer syncer = new Syncer(horSymbol, symbols);
+                for (int i = 0; i < symbols.length; i++) {
+                    SyncSymbolThread symbolThread = new SyncSymbolThread(syncer, symbols[i]);
+                    symbolThread.start();
+                }
             }
         } catch(IOException e) {
         }
