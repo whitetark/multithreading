@@ -1,3 +1,5 @@
+package Models;
+
 import java.util.Random;
 
 public class Matrix {
@@ -117,6 +119,9 @@ public class Matrix {
         return this.items;
     }
 
+    public int getItem(int i, int j){
+        return this.items[i][j];
+    }
     public void setItem(int i, int j, int item) {
         this.items[i][j] = item;
     }
