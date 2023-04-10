@@ -13,19 +13,20 @@ public class BounceFrame extends JFrame {
 
     private static int hitScore = 0;
     private static JLabel hitScoreLabel;
+    private static BallThreadJoin prevThread = null;
     public BounceFrame() {
         this.setSize(WIDTH, HEIGHT);
         this.setTitle("Balls&Holes");
 
         this.canvas = new BallCanvas();
-        /*
-        canvas.add(new Hole(380, 10)); //N
-        canvas.add(new Hole(380, 270)); //S
+
+        //canvas.add(new Hole(380, 10)); //N
+        //canvas.add(new Hole(380, 270)); //S
         canvas.add(new Hole(10, 10)); //NW
         canvas.add(new Hole(10, 270)); //SW
-        canvas.add(new Hole(760, 10)); //NE
-        canvas.add(new Hole(760, 270)); //SE
-         */
+        canvas.add(new Hole(755, 10)); //NE
+        canvas.add(new Hole(755, 270)); //SE
+
         JPanel hitScorePanel =  new JPanel();
         hitScorePanel.setBackground(Color.lightGray.brighter());
         JLabel hitScoreLabel = new JLabel(String.valueOf(BounceFrame.hitScore));
@@ -47,6 +48,9 @@ public class BounceFrame extends JFrame {
         JButton buttonAddRed = new JButton("Red");
         JButton buttonAddBlue = new JButton("Blue");
         JButton buttonTest = new JButton("Test");
+        JButton buttonJoin = new JButton("Join Gray");
+        JButton buttonJoinRed = new JButton("Join Red");
+        JButton buttonJoinBlue = new JButton("Join Blue");
 
 
         buttonStart.addActionListener(new ActionListener() {
@@ -99,20 +103,49 @@ public class BounceFrame extends JFrame {
                 }
             }
         });
+
         buttonTest.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < 500; i++) {
+                for (int i = 0; i < 10000; i++) {
                     createBall(-1);
                 }
                 createBall(1);
             }
         });
 
+        buttonJoin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < 1; i++) {
+                    createBallJoin(0);
+                }
+            }
+        });
+        buttonJoinRed.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < 1; i++) {
+                    createBallJoin(1);
+                }
+            }
+        });
+        buttonJoinBlue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < 1; i++) {
+                    createBallJoin(-1);
+                }
+            }
+        });
         buttonPanel.add(buttonStart);
-        buttonPanel.add(buttonAddBlue);
-        buttonPanel.add(buttonAddRed);
-        buttonPanel.add(buttonTest);
+        buttonPanel.add(buttonJoin);
+        buttonPanel.add(buttonJoinRed);
+        buttonPanel.add(buttonJoinBlue);
+
+        //buttonPanel.add(buttonAddBlue);
+        //buttonPanel.add(buttonAddRed);
+        //buttonPanel.add(buttonTest);
         //buttonPanel.add(buttonAddTen);
         //buttonPanel.add(buttonAddHundred);
         //buttonPanel.add(buttonAddThousand);
@@ -130,6 +163,21 @@ public class BounceFrame extends JFrame {
 
         BallThread thread = new BallThread(b);
         thread.start();
+        System.out.println("Created Ball = " + thread.getName());
+    }
+
+    public void createBallJoin(int priority){
+        Ball b = new Ball(canvas, priority);
+        canvas.add(b);
+
+        BallThreadJoin thread;
+        if(prevThread == null){
+            thread = new BallThreadJoin(b, null);
+        } else{
+            thread = new BallThreadJoin(b, prevThread);
+        }
+        thread.start();
+        prevThread = thread;
         System.out.println("Created Ball = " + thread.getName());
     }
 }

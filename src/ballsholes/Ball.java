@@ -29,17 +29,17 @@ class Ball {
                 this.color = Color.darkGray;
                 break;
         }
-/*
+
         if(Math.random()<0.5){
             x = new Random().nextInt(this.canvas.getWidth());
-            y = 0;
+            y = 30;
         }else{
-            x = 0;
+            x = 30;
             y = new Random().nextInt(this.canvas.getHeight());
         }
- */
-        this.x = 100;
-        this.y = 100;
+
+        //this.x = 100;
+        //this.y = 100;
     }
 
     public void draw (Graphics2D g2){
