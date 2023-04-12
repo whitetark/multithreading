@@ -1,7 +1,8 @@
 package Algorithms;
 
 import Models.Matrix;
+import Models.Result;
 
 public interface IAlgorithm {
-    Matrix multiply();
+    Result multiply();
 }

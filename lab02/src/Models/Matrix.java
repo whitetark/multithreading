@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class Matrix {
     public double[][] items;
-    private int rows;
-    private int cols;
+    public int rows;
+    public int cols;
 
     public Matrix(int rows, int cols) {
         this.items = new double[rows][cols];
@@ -22,14 +22,14 @@ public class Matrix {
         }
     }
 
-    public void transpose() {
-        double[][] newMatrix = new double[this.getCols()][this.getRows()];
+    public Matrix transpose() {
+        Matrix newMatrix = new Matrix(this.cols,this.rows);
         for (int i = 0; i < items[0].length; i++) {
             for (int j = 0; j < items.length; j++) {
-                newMatrix[i][j] = this.items[j][i];
+                newMatrix.items[i][j] = this.items[j][i];
             }
         }
-        this.items = newMatrix;
+        return newMatrix;
     }
 
     public double[] getRow(int row) {
@@ -38,19 +38,10 @@ public class Matrix {
 
     public double[] getColumn(int index){
         double[] column = new double[this.cols];
-        for (int i = 0; i < getRows(); i++) {
+        for (int i = 0; i < this.rows; i++) {
             column[i] = (items[i][index]);
         }
         return column;
-    }
-
-
-    public int getRows() {
-        return this.rows;
-    }
-
-    public int getCols() {
-        return this.cols;
     }
 
     public void generateRandomMatrix() {

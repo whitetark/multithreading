@@ -1,6 +1,7 @@
 package Algorithms;
 
 import Models.Matrix;
+import Models.Result;
 
 public class Fox implements IAlgorithm{
     private Matrix matrix1;
@@ -13,7 +14,7 @@ public class Fox implements IAlgorithm{
         this.numOfThreads = numOfThreads;
     }
     @Override
-    public Matrix multiply() {
+    public Result multiply() {
         return null;
     }
 }
