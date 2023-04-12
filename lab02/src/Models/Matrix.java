@@ -1,166 +1,63 @@
 package Models;
 
-import java.util.Random;
+import java.util.Arrays;
 
 public class Matrix {
-    private final int[][] items;
-    private final int rows;
-    private final int columns;
-    private int randomSeed;
+    public double[][] items;
+    private int rows;
+    private int cols;
 
-    public Matrix(int[][] items) {
-        this.items = items;
-        this.rows = items.length;
-        this.columns = items[0].length;
-    }
-
-    public Matrix(int rows, int columns, int randomSeed) {
+    public Matrix(int rows, int cols) {
+        this.items = new double[rows][cols];
         this.rows = rows;
-        this.columns = columns;
-        this.randomSeed = randomSeed;
-        this.items = generateMatrix(rows, columns);
+        this.cols = cols;
     }
 
-    public Matrix(int rows, int columns) {
-        this.rows = rows;
-        this.columns = columns;
-        this.items = new int[rows][columns];
-    }
-
-    public Matrix(Matrix[][] matrix, int rows, int columns) {
-        this.rows = rows;
-        this.columns = columns;
-        this.items = new int[rows][columns];
-
-        int totalItems = matrix.length;
-        int subMatrixSize = matrix[0][0].getRows();
-
-        for (int i = 0; i < totalItems; i++) {
-            for (int j = 0; j < totalItems; j++) {
-                int[][] currentMatrix = matrix[i][j].getMatrix();
-
-                for (int k = 0; k < subMatrixSize; k++) {
-                    for (int p = 0; p < subMatrixSize; p++) {
-                        if(i * subMatrixSize + k >= rows || j * subMatrixSize + p >= columns){
-                            continue;
-                        }
-
-                        this.items[i * subMatrixSize + k][j * subMatrixSize + p] = currentMatrix[k][p];
-                    }
-                }
+    public void print() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                System.out.printf("%10.1f", this.items[i][j]);
             }
+            System.out.println();
         }
     }
 
-    private final int[][] generateMatrix(int rows, int columns) {
-        int[][] matrix = new int[rows][columns];
-
-        Random random = new Random(this.randomSeed);
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                matrix[i][j] = random.nextInt(10);
+    public void transpose() {
+        double[][] newMatrix = new double[this.getCols()][this.getRows()];
+        for (int i = 0; i < items[0].length; i++) {
+            for (int j = 0; j < items.length; j++) {
+                newMatrix[i][j] = this.items[j][i];
             }
         }
-
-        return matrix;
+        this.items = newMatrix;
     }
 
-    public static Matrix transpose(Matrix matrixToTranspose) {
-        int rows = matrixToTranspose.getRows();
-        int columns = matrixToTranspose.getColumns();
-        int[][] matrix = matrixToTranspose.getMatrix();
+    public double[] getRow(int row) {
+        return this.items[row];
+    }
 
-        int[][] transposedMatrix = new int[columns][rows];
-
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < rows; j++) {
-                transposedMatrix[i][j] = matrix[j][i];
-            }
+    public double[] getColumn(int index){
+        double[] column = new double[this.cols];
+        for (int i = 0; i < getRows(); i++) {
+            column[i] = (items[i][index]);
         }
-
-        return new Matrix(transposedMatrix);
+        return column;
     }
 
-    public static final Matrix[][] splitMatrix(Matrix matrix, int step) {
-        Matrix[][] result = new Matrix[step][step];
-        int matrixSize = (matrix.getColumns() + step - 1) / step;
-        for (int i = 0; i < step; i++) {
-            for (int j = 0; j < step; j++) {
-                result[i][j] = new Matrix(matrixSize, matrixSize);
-                int[][] subMatrix = result[i][j].getMatrix();
-                for (int i1 = 0; i1 < matrixSize; i1++) {
-                    for (int j1 = 0; j1 < subMatrix.length; j1++) {
-                        if(i * matrixSize + i1 >= matrix.getRows() || j * matrixSize + j1 >= matrix.getColumns()){
-                            subMatrix[i1][j1] = 0;
-                            continue;
-                        }
-                        subMatrix[i1][j1] = matrix.getMatrix()[i * matrixSize + i1][j * matrixSize + j1];
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-
-    public int[] getRow(int row) {
-        return items[row];
-    }
 
     public int getRows() {
         return this.rows;
     }
 
-    public int getColumns() {
-        return this.columns;
+    public int getCols() {
+        return this.cols;
     }
 
-    public int[][] getMatrix() {
-        return this.items;
-    }
-
-    public int getItem(int i, int j){
-        return this.items[i][j];
-    }
-    public void setItem(int i, int j, int item) {
-        this.items[i][j] = item;
-    }
-
-    public void addItem(int i, int j, int value) {
-        this.items[i][j] += value;
-    }
-
-    public static final Matrix copyBlock(Matrix matrix, int i, int j, int size) {
-        Matrix block = new Matrix(size, size);
-        for (int k = 0; k < size; k++) {
-            System.arraycopy(matrix.getMatrix()[k + i], j, block.getMatrix()[k], 0, size);
-        }
-
-        return block;
-    }
-
-    @Override
-    public Matrix clone() {
-        int[][] copy = new int[this.rows][this.columns];
-
+    public void generateRandomMatrix() {
         for (int i = 0; i < this.rows; i++) {
-            System.arraycopy(items[i], 0, copy[i], 0, this.columns);
-        }
-
-        return new Matrix(copy);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                builder.append(String.format("%4d", items[i][j]));
+            for (int j = 0; j < this.cols; j++) {
+                this.items[i][j] = Math.random();
             }
-
-            builder.append('\n');
         }
-
-        return builder.toString();
     }
 }
