@@ -51,4 +51,25 @@ public class Matrix {
             }
         }
     }
+
+    public static Matrix[][] generateBlocks(Matrix matrix, int blockSize){
+        Matrix[][] blocks = new Matrix[blockSize][blockSize];
+        int numOfBlocks = matrix.cols / blockSize;
+
+        for(int i = 0; i < blockSize; i++){
+            for(int j = 0; j < blockSize; j++){
+                blocks[i][j] = new Matrix(numOfBlocks, numOfBlocks);
+                for(int k = 0; k < numOfBlocks; k++){
+                    for(int l = 0; l < numOfBlocks; l++){
+                        double element = 0;
+                        if(i * numOfBlocks + k >= matrix.rows || j * numOfBlocks + l >= matrix.cols){
+                            element = matrix.items[i * numOfBlocks + k][j * numOfBlocks + l];
+                        }
+                        blocks[i][j].items[k][l] = element;
+                    }
+                }
+            }
+        }
+        return blocks;
+    }
 }
