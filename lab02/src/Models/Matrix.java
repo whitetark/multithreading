@@ -23,13 +23,13 @@ public class Matrix {
     }
 
     public Matrix transpose() {
-        Matrix newMatrix = new Matrix(this.cols,this.rows);
-        for (int i = 0; i < items[0].length; i++) {
-            for (int j = 0; j < items.length; j++) {
-                newMatrix.items[i][j] = this.items[j][i];
+        Matrix result = new Matrix(this.cols,this.rows);
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.items[j][i] = this.items[i][j];
             }
         }
-        return newMatrix;
+        return result;
     }
 
     public double[] getRow(int row) {
@@ -53,20 +53,13 @@ public class Matrix {
     }
 
     public static Matrix[][] generateBlocks(Matrix matrix, int blockSize){
-        Matrix[][] blocks = new Matrix[blockSize][blockSize];
-        int numOfBlocks = matrix.cols / blockSize;
-
-        for(int i = 0; i < blockSize; i++){
-            for(int j = 0; j < blockSize; j++){
-                blocks[i][j] = new Matrix(numOfBlocks, numOfBlocks);
-                for(int k = 0; k < numOfBlocks; k++){
-                    for(int l = 0; l < numOfBlocks; l++){
-                        double element = 0;
-                        if(i * numOfBlocks + k >= matrix.rows || j * numOfBlocks + l >= matrix.cols){
-                            element = matrix.items[i * numOfBlocks + k][j * numOfBlocks + l];
-                        }
-                        blocks[i][j].items[k][l] = element;
-                    }
+        int numOfBlocks = matrix.items.length / blockSize;
+        Matrix[][] blocks = new Matrix[numOfBlocks][numOfBlocks];
+        for(int i = 0; i < numOfBlocks; i++){
+            for(int j = 0; j < numOfBlocks; j++){
+                blocks[i][j] = new Matrix(blockSize, blockSize);
+                for(int k = 0; k < blockSize; k++){
+                    System.arraycopy(matrix.items[i * blockSize + k], j * blockSize, blocks[i][j].items[k], 0, blockSize);
                 }
             }
         }

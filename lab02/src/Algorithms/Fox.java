@@ -16,7 +16,7 @@ public class Fox implements IAlgorithm{
     private Matrix matrix1;
     private Matrix matrix2;
     private int numOfThreads;
-    private int blockSize = 5;
+    private int blockSize = 50;
 
     public Fox(Matrix matrix1, Matrix matrix2, int numOfThreads){
         this.matrix1 = matrix1;
@@ -51,13 +51,12 @@ public class Fox implements IAlgorithm{
         executor.shutdown();
 
         for (int i = 0; i < blocksResult.length; i++) {
-            for (int j = 0; j < blocksResult[i].length; j++) {
-                for(int k = 0; k < blocksResult[i][j].rows; k++){
-                    for(int l = 0; l < blocksResult[i][j].cols; l++){
-                        if (i * blocksResult[i][j].rows + k < result.rows && j * blocksResult[i][j].cols + l < result.cols) {
-                            result.items[i * blocksResult[i][j].rows + k][j * blocksResult[i][j].cols + l] = blocksResult[i][j].items[k][l];
-                        }
-                    }
+            for (int j = 0; j < blocksResult.length; j++) {
+                double[][] subMatrix = blocksResult[i][j].items;
+                int subMatrixStartRow = i * blocksResult[0][0].items.length;
+                int subMatrixStartCol = j * blocksResult[0][0].items.length;
+                for (int k = 0; k < blocksResult[0][0].items.length; k++) {
+                    System.arraycopy(subMatrix[k], 0, result.items[subMatrixStartRow + k], subMatrixStartCol, blocksResult[0][0].items.length);
                 }
             }
         }
