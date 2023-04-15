@@ -9,7 +9,7 @@ public class Main {
             Symbol horSymbol = new Symbol('-');
             Symbol vertSymbol = new Symbol('|');
             Symbol starSymbol = new Symbol('*');
-            Symbol[] symbols = {horSymbol, vertSymbol, starSymbol};
+            Symbol[] symbols = {horSymbol, vertSymbol,starSymbol};
 
             if(choose == (int)'0'){
                 for (int i = 0; i < symbols.length; i++) {

@@ -1,7 +1,7 @@
 package printer;
 
 public class AsyncSymbolThread extends Thread{
-    public static final int LINES_NUMBER = 1;
+    public static final int LINES_NUMBER = 100;
     public static final int LINE_LENGTH = 50;
     private Symbol symbol;
 

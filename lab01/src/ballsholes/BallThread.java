@@ -13,6 +13,7 @@ public class BallThread extends Thread {
                 setPriority(Thread.MAX_PRIORITY);
                 break;
             default:
+                setPriority(Thread.NORM_PRIORITY);
                 break;
         }
     }
@@ -23,7 +24,7 @@ public class BallThread extends Thread {
                 if (b.intersectsWithHoles()) {
                     BounceFrame.hitScoreInc();
                     System.out.println("Ball Hit Hole = " + Thread.currentThread().getName());
-                    this.interrupt();
+                    break;
                 }
             b.move();
             System.out.println("Moving Ball = " + Thread.currentThread().getName());

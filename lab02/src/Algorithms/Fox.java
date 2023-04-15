@@ -1,6 +1,5 @@
 package Algorithms;
 
-import Models.BlockMatrix;
 import Models.Matrix;
 import Models.Result;
 import Threads.FoxThread;
@@ -16,7 +15,7 @@ public class Fox implements IAlgorithm{
     private Matrix matrix1;
     private Matrix matrix2;
     private int numOfThreads;
-    private int blockSize = 50;
+    private int blockSize = 250;
 
     public Fox(Matrix matrix1, Matrix matrix2, int numOfThreads){
         this.matrix1 = matrix1;
@@ -37,8 +36,8 @@ public class Fox implements IAlgorithm{
 
         ExecutorService executor = Executors.newFixedThreadPool(numOfThreads);
         ArrayList<Callable<Object>> tasks = new ArrayList<>(matrix1.rows);
-        int numOfThreads = matrix1.rows / blockSize;
-        for (int i = 0; i < numOfThreads; i++) {
+        int numOfBlocks = matrix1.rows / blockSize;
+        for (int i = 0; i < numOfBlocks; i++) {
             FoxThread thread = new FoxThread(blocksResult, blocksMatrix1, blocksMatrix2, i, blockSize);
             tasks.add(Executors.callable(thread));
         }
@@ -50,13 +49,13 @@ public class Fox implements IAlgorithm{
 
         executor.shutdown();
 
-        for (int i = 0; i < blocksResult.length; i++) {
-            for (int j = 0; j < blocksResult.length; j++) {
-                double[][] subMatrix = blocksResult[i][j].items;
-                int subMatrixStartRow = i * blocksResult[0][0].items.length;
-                int subMatrixStartCol = j * blocksResult[0][0].items.length;
-                for (int k = 0; k < blocksResult[0][0].items.length; k++) {
-                    System.arraycopy(subMatrix[k], 0, result.items[subMatrixStartRow + k], subMatrixStartCol, blocksResult[0][0].items.length);
+        for (int i = 0; i < numOfBlocks; i++) {
+            for (int j = 0; j < numOfBlocks; j++) {
+                double[][] blockMatrix = blocksResult[i][j].items;
+                for (int k = 0; k < blockSize; k++) {
+                    for(int l = 0; l < blockSize; l++){
+                        result.items[k + (i * blockSize)][l + (j * blockSize)] = blockMatrix[k][l];
+                    }
                 }
             }
         }

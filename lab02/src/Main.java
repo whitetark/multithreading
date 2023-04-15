@@ -8,8 +8,8 @@ import Models.Result;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        int sizeOfMatrix = 2000;
-        int numOfThreads = 16;
+        int sizeOfMatrix = 1000;
+        int numOfThreads = 32;
         Matrix matrix1 = new Matrix(sizeOfMatrix,sizeOfMatrix);
         matrix1.generateRandomMatrix();
         System.out.println("Matrix1 Before:");

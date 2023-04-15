@@ -29,7 +29,7 @@ public class BallThreadJoin extends Thread{
                 if (b.intersectsWithHoles()) {
                     BounceFrame.hitScoreInc();
                     System.out.println("Ball Hit Hole = " + Thread.currentThread().getName());
-                    this.interrupt();
+                    break;
                 }
                 b.move();
                 System.out.println("Moving Ball = " + Thread.currentThread().getName());

@@ -22,7 +22,6 @@ public class Standard implements IAlgorithm {
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < result.rows; i++) {
             for (int j = 0; j < result.cols; j++) {
-                result.items[i][j] = 0;
                 for (int k = 0; k < matrix1.cols; k++) {
                     result.items[i][j] += matrix1.items[i][k] * matrix2.items[k][j];
                 }

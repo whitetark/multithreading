@@ -13,6 +13,11 @@ public class Matrix {
         this.cols = cols;
     }
 
+    public Matrix(double[][] items){
+        this.items = items;
+        this.rows = items.length;
+        this.cols = items[0].length;
+    }
     public void print() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -32,6 +37,29 @@ public class Matrix {
         return result;
     }
 
+    public static Matrix add(Matrix matrix1, Matrix matrix2){
+        Matrix result = new Matrix(matrix1.rows, matrix1.rows);
+
+        for (int i = 0; i < result.rows; i++) {
+            for (int j = 0; j < result.cols; j++) {
+                result.items[i][j] = matrix1.items[i][j] + matrix2.items[i][j];
+            }
+        }
+        return result;
+    }
+
+    public static Matrix multiply(Matrix matrix1, Matrix matrix2){
+        Matrix result = new Matrix(matrix1.rows, matrix2.cols);
+
+        for (int i = 0; i < result.rows; i++) {
+            for (int j = 0; j < result.cols; j++) {
+                for (int k = 0; k < matrix1.cols; k++) {
+                    result.items[i][j] += matrix1.items[i][k] * matrix2.items[k][j];
+                }
+            }
+        }
+        return result;
+    }
     public double[] getRow(int row) {
         return this.items[row];
     }
@@ -57,9 +85,11 @@ public class Matrix {
         Matrix[][] blocks = new Matrix[numOfBlocks][numOfBlocks];
         for(int i = 0; i < numOfBlocks; i++){
             for(int j = 0; j < numOfBlocks; j++){
-                blocks[i][j] = new Matrix(blockSize, blockSize);
+                blocks[i][j] = new Matrix(blockSize,blockSize);
                 for(int k = 0; k < blockSize; k++){
-                    System.arraycopy(matrix.items[i * blockSize + k], j * blockSize, blocks[i][j].items[k], 0, blockSize);
+                    for(int l = 0; l < blockSize; l++){
+                        blocks[i][j].items[k][l] = matrix.items[i * blockSize + k][l+(j*blockSize)];
+                    }
                 }
             }
         }

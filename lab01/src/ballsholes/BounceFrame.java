@@ -31,7 +31,7 @@ public class BounceFrame extends JFrame {
         hitScorePanel.setBackground(Color.lightGray.brighter());
         JLabel hitScoreLabel = new JLabel(String.valueOf(BounceFrame.hitScore));
         BounceFrame.hitScoreLabel = hitScoreLabel;
-        hitScorePanel.add(hitScoreLabel);
+        hitScorePanel.add(this.hitScoreLabel);
 
         System.out.println("In Frame Thread name = " + Thread.currentThread().getName());
         Container content = this.getContentPane();
@@ -54,7 +54,6 @@ public class BounceFrame extends JFrame {
 
 
         buttonStart.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 createBall(0);
@@ -107,7 +106,7 @@ public class BounceFrame extends JFrame {
         buttonTest.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < 10000; i++) {
+                for (int i = 0; i < 1000; i++) {
                     createBall(-1);
                 }
                 createBall(1);
@@ -139,16 +138,20 @@ public class BounceFrame extends JFrame {
             }
         });
         buttonPanel.add(buttonStart);
-        buttonPanel.add(buttonJoin);
-        buttonPanel.add(buttonJoinRed);
-        buttonPanel.add(buttonJoinBlue);
-
-        //buttonPanel.add(buttonAddBlue);
-        //buttonPanel.add(buttonAddRed);
-        //buttonPanel.add(buttonTest);
+        //Task 1-2
         //buttonPanel.add(buttonAddTen);
         //buttonPanel.add(buttonAddHundred);
         //buttonPanel.add(buttonAddThousand);
+
+        //Task 3
+        //buttonPanel.add(buttonAddBlue);
+        //buttonPanel.add(buttonAddRed);
+        //buttonPanel.add(buttonTest);
+
+        //Task4
+        buttonPanel.add(buttonJoin);
+        buttonPanel.add(buttonJoinRed);
+        buttonPanel.add(buttonJoinBlue);
 
         content.add(buttonPanel, BorderLayout.SOUTH);
     }
