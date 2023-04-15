@@ -1,10 +1,12 @@
 package ballsholes;
 
-public class BallThread extends Thread {
+public class BallThreadJoin extends Thread{
     private Ball b;
+    private BallThreadJoin prevThread;
 
-    public BallThread(Ball ball){
-        b = ball;
+    public BallThreadJoin(Ball ball, BallThreadJoin prevThread){
+        this.b = ball;
+        this.prevThread = prevThread;
         switch(ball.getPriority()){
             case -1:
                 setPriority(Thread.MIN_PRIORITY);
@@ -19,18 +21,22 @@ public class BallThread extends Thread {
     @Override
     public void run(){
         try {
+            if (prevThread != null){
+                prevThread.join();
+            }
+
             while (true){
                 if (b.intersectsWithHoles()) {
                     BounceFrame.hitScoreInc();
                     System.out.println("Ball Hit Hole = " + Thread.currentThread().getName());
-                    this.interrupt();
+                    break;
                 }
-            b.move();
-            System.out.println("Moving Ball = " + Thread.currentThread().getName());
-            Thread.sleep(5);
+                b.move();
+                System.out.println("Moving Ball = " + Thread.currentThread().getName());
+                Thread.sleep(5);
             }
         } catch(InterruptedException ex){
-
+            System.out.println("Thread interrupted");
         }
     }
 }
