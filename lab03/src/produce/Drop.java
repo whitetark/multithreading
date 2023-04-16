@@ -1,7 +1,5 @@
 package produce;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 public class Drop {
     private int message;
     private boolean empty = true;
