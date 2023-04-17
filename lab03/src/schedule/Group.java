@@ -1,15 +1,27 @@
 package schedule;
 
-public class Group {
-    private String name;
-    private Student[] students;
+import java.util.ArrayList;
 
-    public Group(String name){
+public class Group {
+    public String name;
+    public ArrayList<Student> students = new ArrayList<>();
+
+    public Group(String name, int countStudents){
         this.name = name;
-        this.students = generateGroup();
+        generateGroup(countStudents);
     }
-    private Student[] generateGroup(){
-        Student[] result = new Student[10];
-        return result;
+    public void addStudent(Student student){
+        students.add(student);
+    }
+    public int getCapacity(){
+        return students.size();
+    }
+    public void print(){
+        System.out.print("Group " + name + ": ");
+    }
+    private void generateGroup(int countStudents){
+        for(int i =0;i<countStudents;i++){
+            students.add(new Student());
+        }
     }
 }
