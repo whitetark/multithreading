@@ -36,8 +36,7 @@ public class Striped2 implements IAlgorithm{
 
         for (int i = 0; i < matrix1.rows; i++) {
             for (int j = 0; j < matrix2.cols; j++) {
-                int index = (j + i) % matrix1.rows;
-                StripedCallable task = new StripedCallable(matrix1.getRow(index), transMatrix2.getRow(index));
+                StripedCallable task = new StripedCallable(matrix1.getRow(i), transMatrix2.getRow(j));
                 tasks.add(task);
             }
         }
@@ -53,8 +52,7 @@ public class Striped2 implements IAlgorithm{
             for (int i = 0; i < result.rows; i++) {
                 for (int j = 0; j < result.cols; j++) {
                     Future<Double> future = futures.get(i * result.cols + j);
-                    int index = (j + i) % matrix1.rows;
-                    result.items[index][j] = future.get();
+                    result.items[i][j] = future.get();
                 }
             }
         }
