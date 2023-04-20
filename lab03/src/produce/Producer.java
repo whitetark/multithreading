@@ -16,7 +16,7 @@ public class Producer implements Runnable {
         for (int i = 0; i < importantInfo.length; i++) {
             drop.put(importantInfo[i]);
             try {
-                Thread.sleep(random.nextInt(5000));
+                Thread.sleep(random.nextInt(500));
             } catch (InterruptedException e) {}
         }
         drop.put(-1);
