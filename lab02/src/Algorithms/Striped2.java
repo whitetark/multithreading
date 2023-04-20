@@ -2,19 +2,20 @@ package Algorithms;
 
 import Models.Matrix;
 import Models.Result;
-import Threads.StripedThread;
+import Threads.StripedCallable;
 
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-public class Striped implements IAlgorithm{
+public class Striped2 implements IAlgorithm{
     private Matrix matrix1;
     private Matrix matrix2;
     private int numOfThreads;
 
-    public Striped(Matrix matrix1, Matrix matrix2, int numOfThreads){
+    public Striped2(Matrix matrix1, Matrix matrix2, int numOfThreads){
         this.matrix1 = matrix1;
         this.matrix2 = matrix2;
         this.numOfThreads = numOfThreads;
@@ -30,21 +31,41 @@ public class Striped implements IAlgorithm{
 
         long startTime = System.currentTimeMillis();
         ExecutorService executor = Executors.newFixedThreadPool(numOfThreads);
-        ArrayList<Callable<Object>> tasks = new ArrayList<>();
+        ArrayList<StripedCallable> tasks = new ArrayList<>();
+        ArrayList<Future<Double>> futures = new ArrayList<>();
+
         for (int i = 0; i < matrix1.rows; i++) {
             for (int j = 0; j < matrix2.cols; j++) {
-                StripedThread thread = new StripedThread(result, matrix1.getRow(i), transMatrix2.getRow(j), i, j);
-                tasks.add(Executors.callable(thread));
+                int index = (j + i) % matrix1.rows;
+                StripedCallable task = new StripedCallable(matrix1.getRow(index), transMatrix2.getRow(index));
+                tasks.add(task);
             }
         }
         try {
-            executor.invokeAll(tasks);
+            futures.addAll(executor.invokeAll(tasks));
+            tasks.clear();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
         executor.shutdown();
+
+        try{
+            for (int i = 0; i < result.rows; i++) {
+                for (int j = 0; j < result.cols; j++) {
+                    Future<Double> future = futures.get(i * result.cols + j);
+                    int index = (j + i) % matrix1.rows;
+                    result.items[index][j] = future.get();
+                }
+            }
+        }
+        catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
         long finishTime = System.currentTimeMillis();
         return new Result(result, finishTime - startTime);
     }
 }
+

@@ -15,12 +15,13 @@ public class Fox implements IAlgorithm{
     private Matrix matrix1;
     private Matrix matrix2;
     private int numOfThreads;
-    private int blockSize = 250;
+    private int blockSize;
 
-    public Fox(Matrix matrix1, Matrix matrix2, int numOfThreads){
+    public Fox(Matrix matrix1, Matrix matrix2, int numOfThreads, int blockSize){
         this.matrix1 = matrix1;
         this.matrix2 = matrix2;
         this.numOfThreads = numOfThreads;
+        this.blockSize = blockSize;
     }
     @Override
     public Result multiply() {
@@ -35,7 +36,7 @@ public class Fox implements IAlgorithm{
         Matrix[][] blocksResult = generateBlocks(result, blockSize);
 
         ExecutorService executor = Executors.newFixedThreadPool(numOfThreads);
-        ArrayList<Callable<Object>> tasks = new ArrayList<>(matrix1.rows);
+        ArrayList<Callable<Object>> tasks = new ArrayList<>();
         int numOfBlocks = matrix1.rows / blockSize;
         for (int i = 0; i < numOfBlocks; i++) {
             FoxThread thread = new FoxThread(blocksResult, blocksMatrix1, blocksMatrix2, i, blockSize);
