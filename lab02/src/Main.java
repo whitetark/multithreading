@@ -1,6 +1,7 @@
 import Algorithms.Fox;
 import Algorithms.Standard;
 import Algorithms.Striped;
+import Algorithms.Striped2;
 import Models.Matrix;
 import Models.Result;
 
@@ -9,7 +10,9 @@ import Models.Result;
 public class Main {
     public static void main(String[] args) {
         int sizeOfMatrix = 1000;
-        int numOfThreads = 32;
+        int numOfThreads = 8;
+        int blockSize = 10;
+
         Matrix matrix1 = new Matrix(sizeOfMatrix,sizeOfMatrix);
         matrix1.generateRandomMatrix();
         System.out.println("Matrix1 Before:");
@@ -36,10 +39,17 @@ public class Main {
         System.out.println("Time:" + resultOfStriped.time);
         System.out.println();
 
-        Fox fox = new Fox(matrix1, matrix2, numOfThreads);
+        Striped2 striped2 = new Striped2(matrix1, matrix2, numOfThreads);
+        Result resultOfStriped2 = striped2.multiply();
+        System.out.println("Matrix After Striped Callable Multiply:");
+        //resultOfStriped.matrix.print();
+        System.out.println("Time:" + resultOfStriped2.time);
+        System.out.println();
+
+        Fox fox = new Fox(matrix1, matrix2, numOfThreads, blockSize);
         Result resultOfFox = fox.multiply();
         System.out.println("Matrix After Fox Multiply:");
-       //resultOfFox.matrix.print();
+        //resultOfFox.matrix.print();
         System.out.println("Time:" + resultOfFox.time);
         System.out.println();
 
