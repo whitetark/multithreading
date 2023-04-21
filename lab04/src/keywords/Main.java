@@ -27,7 +27,7 @@ public class Main {
         if(task.foundKeywords != null){
             for (Document document : task.foundKeywords){
                 System.out.println("Document is: " + document.path);
-                System.out.println("Count of keywords: " + document.keywords.size());
+                System.out.println("Count of Keywords: " + document.keywords.size());
                 System.out.println("Found Keywords: " + document.keywords);
             }
         } else{

@@ -1,22 +1,20 @@
 package samewords;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
 public class Main {
     public static void main(String[] args) {
-        ForkJoinPool pool = new ForkJoinPool();
-        File directory = new File("out/test");
-        System.out.println(directory.getAbsolutePath());
+        File directory = new File("src/files");
+
         long startTime = System.currentTimeMillis();
+        ForkJoinPool pool = new ForkJoinPool();
         Analyzer task = new Analyzer(directory);
         pool.invoke(task);
         long endTime = System.currentTimeMillis();
 
         System.out.println("Time: " + (endTime - startTime) + " ms");
-        System.out.println("Common words are: " + task.commonWords);
+        System.out.println("Count of Common Words: " + task.commonWords.size());
+        System.out.println("Common Words: " + task.commonWords);
     }
 }
