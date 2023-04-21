@@ -51,6 +51,21 @@ public class Bank {
             test();
 
     }
+    public synchronized void waitTransfer(int from, int to, int amount) {
+        while (accounts[from] < amount) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        accounts[from] -= amount;
+        accounts[to] += amount;
+        ntransacts++;
+        notifyAll();
+        if (ntransacts % NTEST == 0) test();
+    }
     public void test(){
         int sum = 0;
         for (int i = 0; i < accounts.length; i++)

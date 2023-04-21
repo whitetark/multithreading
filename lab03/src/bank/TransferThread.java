@@ -21,7 +21,8 @@ public class TransferThread extends Thread {
                 //bank.asyncTransfer(fromAccount, toAccount, amount);
                 //bank.syncTransfer(fromAccount, toAccount, amount);
                 //bank.syncLockTransfer(fromAccount, toAccount, amount);
-                bank.syncBlockTransfer(fromAccount, toAccount, amount);
+                //bank.syncBlockTransfer(fromAccount, toAccount, amount);
+                bank.waitTransfer(fromAccount, toAccount, amount);
             }
         }
     }
