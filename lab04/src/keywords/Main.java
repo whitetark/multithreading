@@ -16,15 +16,16 @@ public class Main {
         keywords.add("database");
         keywords.add("framework");
         keywords.add("class");
+        keywords.add("intelligence");
 
         long startTime = System.currentTimeMillis();
-        ForkJoinPool pool = new ForkJoinPool();
+        ForkJoinPool pool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
         Analyzer task = new Analyzer(directory, keywords);
         pool.invoke(task);
         long endTime = System.currentTimeMillis();
 
         System.out.println("Time: " + (endTime - startTime) + " ms");
-        if(task.foundKeywords != null){
+        if(task.foundKeywords.size() != 0){
             for (Document document : task.foundKeywords){
                 System.out.println("Document is: " + document.path);
                 System.out.println("Count of Keywords: " + document.keywords.size());

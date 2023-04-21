@@ -8,7 +8,7 @@ public class Main {
         File directory = new File("src/files");
 
         long startTime = System.currentTimeMillis();
-        ForkJoinPool pool = new ForkJoinPool();
+        ForkJoinPool pool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
         Analyzer task = new Analyzer(directory);
         pool.invoke(task);
         long endTime = System.currentTimeMillis();
