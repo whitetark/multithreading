@@ -5,12 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.RecursiveTask;
 
-public class Analyzer extends RecursiveAction {
+public class Analyzer extends RecursiveTask<ArrayList<Document>> {
     private final File directory;
     private ArrayList<String> keywords;
-    public ArrayList<Document> foundKeywords = new ArrayList<>();
 
     public Analyzer(File directory, ArrayList<String> keywords) {
         this.directory = directory;
@@ -19,7 +18,8 @@ public class Analyzer extends RecursiveAction {
     }
 
     @Override
-    protected void compute() {
+    protected ArrayList<Document> compute() {
+        ArrayList<Document> result = new ArrayList<>();
         ArrayList<Analyzer> subTasks = new ArrayList<>();
 
         File[] files = directory.listFiles();
@@ -41,7 +41,7 @@ public class Analyzer extends RecursiveAction {
                         Document document = new Document();
                         document.path = file.getPath();
                         document.keywords = words;
-                        foundKeywords.add(document);
+                        result.add(document);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -49,12 +49,15 @@ public class Analyzer extends RecursiveAction {
             }
         }
         for (Analyzer subTask : subTasks) {
-            subTask.join();
+            result.addAll(subTask.join());
         }
+        return result;
     }
 
     private List<String> getWords(String line){
         String[] words = line.split("\\s+");
-        return Arrays.asList(words);
+        List<String> result = Arrays.asList(words);
+        result.replaceAll(String::toLowerCase);
+        return result;
     }
 }

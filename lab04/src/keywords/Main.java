@@ -21,15 +21,16 @@ public class Main {
         long startTime = System.currentTimeMillis();
         ForkJoinPool pool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
         Analyzer task = new Analyzer(directory, keywords);
-        pool.invoke(task);
+        ArrayList<Document> result = pool.invoke(task);
         long endTime = System.currentTimeMillis();
 
         System.out.println("Time: " + (endTime - startTime) + " ms");
-        if(task.foundKeywords.size() != 0){
-            for (Document document : task.foundKeywords){
+        if(result.size() != 0){
+            for (Document document : result){
                 System.out.println("Document is: " + document.path);
                 System.out.println("Count of Keywords: " + document.keywords.size());
                 System.out.println("Found Keywords: " + document.keywords);
+                System.out.println();
             }
         } else{
             System.out.println("There are no files with keywords");

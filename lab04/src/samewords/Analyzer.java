@@ -8,18 +8,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.RecursiveTask;
 
-public class Analyzer extends RecursiveAction {
+public class Analyzer extends RecursiveTask<ArrayList<String>> {
     private final File directory;
-    public static ArrayList<String> commonWords = new ArrayList<>();
 
     public Analyzer(File directory) {
         this.directory = directory;
     }
 
     @Override
-    protected void compute() {
+    protected ArrayList<String> compute() {
         ArrayList<Analyzer> subTasks = new ArrayList<>();
+        ArrayList<String> result = new ArrayList<>();
 
         File[] files = directory.listFiles();
         for (File file : files) {
@@ -35,11 +36,11 @@ public class Analyzer extends RecursiveAction {
                         List<String> lineWords = getWords(line);
                         words.addAll(lineWords);
                     }
-                    if (commonWords.isEmpty()) {
-                        commonWords.addAll(words);
+                    if (result.isEmpty()) {
+                        result.addAll(words);
                     }
                     else{
-                        commonWords.retainAll(words);
+                        result.retainAll(words);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -47,12 +48,15 @@ public class Analyzer extends RecursiveAction {
             }
         }
         for (Analyzer subTask : subTasks) {
-            subTask.join();
+            result.retainAll(subTask.join());
         }
+        return result;
     }
 
     private List<String> getWords(String line){
         String[] words = line.split("\\s+");
-        return Arrays.asList(words);
+        List<String> result = Arrays.asList(words);
+        result.replaceAll(String::toLowerCase);
+        return result;
     }
 }
