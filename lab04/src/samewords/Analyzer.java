@@ -19,14 +19,14 @@ public class Analyzer extends RecursiveAction {
 
     @Override
     protected void compute() {
-        ArrayList<Analyzer> tasks = new ArrayList<>();
+        ArrayList<Analyzer> subTasks = new ArrayList<>();
 
         File[] files = directory.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                Analyzer task = new Analyzer(file);
-                tasks.add(task);
-                task.fork();
+                Analyzer subTask = new Analyzer(file);
+                subTasks.add(subTask);
+                subTask.fork();
             } else {
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                     String line;
@@ -46,8 +46,8 @@ public class Analyzer extends RecursiveAction {
                 }
             }
         }
-        for (Analyzer task : tasks) {
-            task.join();
+        for (Analyzer subTask : subTasks) {
+            subTask.join();
         }
     }
 

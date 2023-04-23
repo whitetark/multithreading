@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Methods {
     public static ArrayList<String> getWords(String path) throws IOException {
@@ -19,52 +20,38 @@ public class Methods {
         return wordList;
     }
 
-    public static ArrayList<Integer> countWordsSymbols(ArrayList<String> words){
-        ArrayList<Integer> result = new ArrayList<>();
+    public static ArrayList<Word> countWordsSymbols(ArrayList<String> words){
+        ArrayList<Word> result = new ArrayList<>();
         for(String word: words){
-            result.add(word.length());
+            result.add(new Word(word));
         }
         return result;
     }
-    /*
-    private void setWordCount(){
-        int count = 0;
-        for (Map.Entry<Integer, Integer> entry : wordLengths.entrySet()) {
-            count += entry.getValue();
-        }
-        this.wordCount = count;
-    }
 
-    private void setWordLengthSum(){
-        int sum = 0;
-        for (Map.Entry<Integer, Integer> entry : wordLengths.entrySet()) {
-            sum += entry.getKey() * entry.getValue();
-        }
-        this.wordLengthSum = sum;
-    }
-    public double getAverageWordLength() {
-        double average = (double) wordLengthSum / wordCount;
+    public static double getAverageWordLength(ArrayList<Word> words) {
+        double average = (double) getWordLengthSum(words) / words.size();
         return Math.round(average * Math.pow(10, 3)) / Math.pow(10, 3);
     }
 
-    public double getDispersion() {
-        double average = getAverageWordLength();
+    public static double getDispersion(ArrayList<Word> words) {
+        double average = getAverageWordLength(words);
         double sumOfSquaredDeviations = 0;
-        for (Map.Entry<Integer, Integer> entry : wordLengths.entrySet()) {
-            sumOfSquaredDeviations += Math.pow(entry.getKey() - average, 2) * entry.getValue();
+        for(Word word: words){
+            sumOfSquaredDeviations += Math.pow(word.length - average, 2);
         }
-        return Math.round(sumOfSquaredDeviations / wordCount * Math.pow(10, 3)) / Math.pow(10, 3);
+
+        return Math.round(sumOfSquaredDeviations / words.size() * Math.pow(10, 3)) / Math.pow(10, 3);
     }
 
-    public double getStandardDeviation() {
-        double dispersion = getDispersion();
+    public static double getStandardDeviation(ArrayList<Word> words) {
+        double dispersion = getDispersion(words);
         return Math.round(Math.sqrt(dispersion) * Math.pow(10, 3)) / Math.pow(10, 3);
     }
-    public int getWordLengthSum() {
-        return wordLengthSum;
+    public static int getWordLengthSum(ArrayList<Word> words) {
+        int result = 0;
+        for(Word word: words){
+            result += word.length;
+        }
+        return result;
     }
-    public int getWordCount() {
-        return wordCount;
-    }
-    */
 }
