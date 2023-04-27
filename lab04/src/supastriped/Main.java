@@ -26,7 +26,7 @@ public class Main {
         Striped striped = new Striped(matrix1, matrix2, numOfThreads);
         Matrix resultOfStriped = striped.multiply();
         long stripTime = System.currentTimeMillis() - stripStartTime;
-        System.out.println("Matrix After Striped Callable Multiply:");
+        System.out.println("Matrix After Striped Thread Multiply:");
         //resultOfStriped.print();
         System.out.println("Time:" + stripTime);
         System.out.println();

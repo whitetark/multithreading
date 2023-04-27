@@ -1,9 +1,12 @@
 ﻿using lab08.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Collections;
-using System.Runtime.InteropServices;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace lab08.Controllers
 {
@@ -11,43 +14,46 @@ namespace lab08.Controllers
     [Route("[controller]")]
     public class MatrixController : ControllerBase
     {
-        private readonly ILogger<MatrixController> _logger;
-
-        public MatrixController(ILogger<MatrixController> logger)
+        [HttpPost("multiply")]
+        public async void MultiplyMatrices(Request request)
         {
-            _logger = logger;
-        }
-        [HttpPost]
-        public async void Multiply()
-        {   
-            var requestBodyJson = await new StreamReader(Request.Body).ReadToEndAsync();
-            var requestBody = JsonConvert.DeserializeObject<Request>(requestBodyJson);
+            try
+            {
+                int[][] matrix1 = request.Matrix1;
+                int[][] matrix2 = request.Matrix2;
 
-             int[,] matrix1 = requestBody.Matrix1;
-             int[,] matrix2 = requestBody.Matrix2;
+                int[][] result = Methods.MultiplyMatrix(matrix1, matrix2);
 
-             int[,] result = Methods.MultiplyMatrix(matrix1, matrix2);
+                var response = JsonConvert.SerializeObject(result);
 
-             var response = JsonConvert.SerializeObject(result);
-             
-             Response.ContentType = "application/json";
+                Response.ContentType = "application/json";
 
-             await Response.WriteAsync(response);
+                await Response.WriteAsync(response);
+            } catch (Exception ex)
+            {
+
+            }
         }
 
-        [HttpGet]
-        public async void GenerateAndMultiply()
-        { 
-             int[,] matrix1 = Methods.GenerateRandomMatrix(100, 0, 10);
-             int[,] matrix2 = Methods.GenerateRandomMatrix(100, 0, 10);
+        [HttpGet("generate/{matrixSize}")]
+        public async void GenerateAndMultiplyMatrices(int matrixSize)
+        {
+            try
+            {
+                var matrix1 = Methods.GenerateRandomMatrix(matrixSize, 0, 100);
+                var matrix2 = Methods.GenerateRandomMatrix(matrixSize, 0, 100);
 
-             int[,] result = Methods.MultiplyMatrix(matrix1, matrix2);
+                var result = Methods.MultiplyMatrix(matrix1, matrix2);
 
-             var response = JsonConvert.SerializeObject(result);
+                var response = JsonConvert.SerializeObject(result);
 
-            Response.ContentType = "application/json";
+                Response.ContentType = "application/json";
 
-            await Response.WriteAsync(response);
+                await Response.WriteAsync(response);
+            } catch (Exception ex)
+            {
+
+            }
         }
     }
 }

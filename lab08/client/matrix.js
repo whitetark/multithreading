@@ -1,46 +1,48 @@
-generatedOnServer()
-generatedOnClient()
+const clientDiv = document.getElementById('client')
+const serverDiv = document.getElementById('server')
+const sizeDiv = document.getElementById('matrixSize')
+let matrixSize = 1000
+sizeDiv.innerText = matrixSize
 
-function generatedOnServer() {
+function generateOnClient() {
+  event.preventDefault
+  let matrix1 = generateRandomMatrix(matrixSize)
+  let matrix2 = generateRandomMatrix(matrixSize)
+  var obj = {
+    Matrix1: matrix1,
+    Matrix2: matrix2,
+  }
+  var xhttp = new XMLHttpRequest()
   const startTime = Date.now()
-  fetch('https://localhost:7052/Matrix', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then(async (result) => {
+  xhttp.open('POST', 'https://localhost:7052/Matrix/multiply/', true)
+  xhttp.setRequestHeader('Content-type', 'application/json')
+  xhttp.send(JSON.stringify(obj))
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var response = JSON.parse(this.responseText)
       const endTime = Date.now()
       let time = endTime - startTime
-      console.log('Generated On Server Time: ', time)
-    })
+      clientDiv.innerText = time
+      console.log('Matrix Generated On Client And Time is ', time)
+    }
+  }
 }
 
-async function generatedOnClient() {
-  const matrixSize = 1000
-
-  const matrixA = generateRandomMatrix(matrixSize)
-  const matrixB = generateRandomMatrix(matrixSize)
-
-  const requestBody = {
-    matrix1: matrixA,
-    matrix2: matrixB,
-  }
-
-  const data = JSON.stringify(requestBody)
-
+function generateOnServer() {
+  event.preventDefault
+  var xhttp = new XMLHttpRequest()
   const startTime = Date.now()
-  const response = await fetch('https://localhost:7052/Matrix', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: data,
-  })
-  const endTime = Date.now()
-  let time = endTime - startTime
-  console.log('Generated On Client Time: ', time)
+  xhttp.open('GET', 'https://localhost:7052/Matrix/generate/' + matrixSize, true)
+  xhttp.send()
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var response = JSON.parse(this.responseText)
+      const endTime = Date.now()
+      let time = endTime - startTime
+      serverDiv.innerText = time
+      console.log('Matrix Generated On Server And Time is ', time)
+    }
+  }
 }
 
 function generateRandomMatrix(size) {
