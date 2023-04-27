@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    height: 100%;
+    display: grid;
+    place-content: center;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 30px;
+    font-size: 48px;
+}
+div{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    height: 100%;
+    align-items: center;
+}
+button{
+    font-size: 48px;
+    padding: 10px;
+}
+h1{
+    font-size: 36px;
+}
+td{
+    padding: 10px;
+}

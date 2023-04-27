@@ -37,5 +37,4 @@ public class StripedFork extends RecursiveTask<Matrix> {
 
         return result;
     }
-
 }

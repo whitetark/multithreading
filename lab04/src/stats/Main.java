@@ -36,5 +36,4 @@ public class Main {
         System.out.println("Dispersion: " + getDispersion(result1));
         System.out.println("Standard Deviation: " + getStandardDeviation(result1));
     }
-
 }
