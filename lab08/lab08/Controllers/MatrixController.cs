@@ -22,7 +22,7 @@ namespace lab08.Controllers
                 int[][] matrix1 = request.Matrix1;
                 int[][] matrix2 = request.Matrix2;
 
-                int[][] result = Methods.MultiplyMatrix(matrix1, matrix2);
+                int[][] result = await Methods.MultiplyMatrix(matrix1, matrix2);
 
                 var response = JsonConvert.SerializeObject(result);
 
@@ -31,7 +31,7 @@ namespace lab08.Controllers
                 await Response.WriteAsync(response);
             } catch (Exception ex)
             {
-
+                throw ex;
             }
         }
 
@@ -40,10 +40,10 @@ namespace lab08.Controllers
         {
             try
             {
-                var matrix1 = Methods.GenerateRandomMatrix(matrixSize, 0, 100);
-                var matrix2 = Methods.GenerateRandomMatrix(matrixSize, 0, 100);
+                int[][] matrix1 = await Methods.GenerateRandomMatrix(matrixSize, 0, 100);
+                int[][] matrix2 = await Methods.GenerateRandomMatrix(matrixSize, 0, 100);
 
-                var result = Methods.MultiplyMatrix(matrix1, matrix2);
+                int[][] result = await Methods.MultiplyMatrix(matrix1, matrix2);
 
                 var response = JsonConvert.SerializeObject(result);
 
@@ -52,7 +52,7 @@ namespace lab08.Controllers
                 await Response.WriteAsync(response);
             } catch (Exception ex)
             {
-
+                throw ex;
             }
         }
     }

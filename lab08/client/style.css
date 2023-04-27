@@ -10,7 +10,7 @@ html{
 }
 body{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
@@ -19,11 +19,18 @@ body{
 }
 div{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 30px;
     height: 100%;
     align-items: center;
 }
 button{
     font-size: 48px;
+    padding: 10px;
+}
+h1{
+    font-size: 36px;
+}
+td{
     padding: 10px;
 }

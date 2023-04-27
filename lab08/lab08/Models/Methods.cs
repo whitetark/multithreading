@@ -4,7 +4,7 @@ namespace lab08.Models
 {
     public class Methods
     {
-        public static int[][] MultiplyMatrix(int[][] matrix1, int[][] matrix2)
+        public async static Task<int[][]> MultiplyMatrix(int[][] matrix1, int[][] matrix2)
         {
 
             int[][] result = new int[matrix1.Length][];
@@ -24,7 +24,7 @@ namespace lab08.Models
 
             return result;
         }
-        public static int[][] GenerateRandomMatrix(int size, int minVal, int maxVal)
+        public async static Task<int[][]> GenerateRandomMatrix(int size, int minVal, int maxVal)
         {
             int[][] matrix = new int[size][];
 

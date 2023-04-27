@@ -1,10 +1,9 @@
 const clientDiv = document.getElementById('client')
 const serverDiv = document.getElementById('server')
-const sizeDiv = document.getElementById('matrixSize')
-let matrixSize = 1000
-sizeDiv.innerText = matrixSize
+let matrixSize = 3000
+document.getElementById('size').innerText = matrixSize
 
-function generateOnClient() {
+async function generateOnClient() {
   event.preventDefault
   let matrix1 = generateRandomMatrix(matrixSize)
   let matrix2 = generateRandomMatrix(matrixSize)
@@ -28,7 +27,7 @@ function generateOnClient() {
   }
 }
 
-function generateOnServer() {
+async function generateOnServer() {
   event.preventDefault
   var xhttp = new XMLHttpRequest()
   const startTime = Date.now()
@@ -50,7 +49,7 @@ function generateRandomMatrix(size) {
   for (var i = 0; i < size; i++) {
     matrix[i] = []
     for (var j = 0; j < size; j++) {
-      matrix[i][j] = Math.floor(Math.random() * 100) // генерація випадкового числа від 0 до 99
+      matrix[i][j] = Math.floor(Math.random() * 100)
     }
   }
   return matrix
