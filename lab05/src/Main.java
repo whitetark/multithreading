@@ -5,7 +5,8 @@ import java.util.concurrent.*;
 public class Main {
     public static void main(String[] args) throws InterruptedException, ExecutionException{
         //task1();
-        task2();
+        //task2();
+        task3();
     }
     public static void task1() {
         QueueCallable task = new QueueCallable();
@@ -37,5 +38,12 @@ public class Main {
 
         System.out.println("Skipped Messages % After " + poolsCount + " Parallel Runs: " + (totalChance / result.size())*100);
         System.out.println("Average Queue Value After " + poolsCount + " Parallel Runs: " + totalMessages / result.size());
+    }
+    public static void task3() {
+        QueueCallable task = new QueueCallable(true);
+        Analyst analyst = task.call();
+
+        System.out.println("Skipped Messages %: " + analyst.skippedChance()*100);
+        System.out.println("Average Queue Value: " + analyst.getAvgQueueValue());
     }
 }

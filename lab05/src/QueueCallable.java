@@ -4,12 +4,23 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class QueueCallable implements Callable<Analyst> {
+    private boolean isObserving;
     private int numOfConsumers;
 
     QueueCallable() {
+        this.isObserving = false;
         this.numOfConsumers = 5;
     }
     QueueCallable(int queueCapacity) {
+        this.isObserving = false;
+        this.numOfConsumers = queueCapacity;
+    }
+    QueueCallable(boolean isObserving) {
+        this.isObserving = isObserving;
+        this.numOfConsumers = 5;
+    }
+    QueueCallable(boolean isObserving, int queueCapacity) {
+        this.isObserving = isObserving;
         this.numOfConsumers = queueCapacity;
     }
 
@@ -21,6 +32,11 @@ public class QueueCallable implements Callable<Analyst> {
         for (int i = 0; i < numOfConsumers; i++) {
             Consumer thread = new Consumer(manager);
             executor.execute(thread);
+        }
+
+        if(isObserving) {
+            Observer observer = new Observer(manager);
+            executor.execute(observer);
         }
 
         Analyst analyst = new Analyst(manager);
