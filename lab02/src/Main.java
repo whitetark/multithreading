@@ -1,6 +1,5 @@
 import Algorithms.Fox;
 import Algorithms.Standard;
-import Algorithms.Striped;
 import Algorithms.Striped2;
 import Models.Matrix;
 import Models.Result;
@@ -9,9 +8,9 @@ import Models.Result;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        int sizeOfMatrix = 10;
+        int sizeOfMatrix = 1000;
         int numOfThreads = 8;
-        int blockSize = 2;
+        int blockSize = 25;
 
         Matrix matrix1 = new Matrix(sizeOfMatrix,sizeOfMatrix);
         matrix1.generateRandomMatrix();
@@ -32,24 +31,17 @@ public class Main {
         System.out.println("Time:" + resultOfStandard.time);
         System.out.println();
 
-        Striped striped = new Striped(matrix1, matrix2, numOfThreads);
-        Result resultOfStriped = striped.multiply();
-        System.out.println("Matrix After Striped Multiply:");
-        resultOfStriped.matrix.print();
-        System.out.println("Time:" + resultOfStriped.time);
-        System.out.println();
-
         Striped2 striped2 = new Striped2(matrix1, matrix2, numOfThreads);
         Result resultOfStriped2 = striped2.multiply();
         System.out.println("Matrix After Striped Callable Multiply:");
-        resultOfStriped2.matrix.print();
+        //resultOfStriped2.matrix.print();
         System.out.println("Time:" + resultOfStriped2.time);
         System.out.println();
 
         Fox fox = new Fox(matrix1, matrix2, numOfThreads, blockSize);
         Result resultOfFox = fox.multiply();
         System.out.println("Matrix After Fox Multiply:");
-        resultOfFox.matrix.print();
+        //resultOfFox.matrix.print();
         System.out.println("Time:" + resultOfFox.time);
         System.out.println();
 

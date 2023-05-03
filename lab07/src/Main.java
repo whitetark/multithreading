@@ -3,10 +3,11 @@ import mpi.MPIException;
 
 public class Main {
     public static int MASTER = 0;
-    public static int matrixSize = 1000;
+    public static int matrixSize = 3000;
     public static void main(String[] args) {
         double[][] matrixA = new double[matrixSize][matrixSize];
         double[][] matrixB = new double[matrixSize][matrixSize];
+        double[][] result = new double[matrixSize][matrixSize];
         long startTime = System.currentTimeMillis();
         long endTime = System.currentTimeMillis();
 
@@ -16,6 +17,7 @@ public class Main {
         int size = MPI.COMM_WORLD.Size();
 
         if(rank == MASTER){
+            System.out.println("Matrix Size is " + matrixSize);
             System.out.println("Started with " + size + " tasks");
             matrixA = Methods.generateMatrix(matrixSize);
             matrixB = Methods.generateMatrix(matrixSize);
@@ -42,18 +44,18 @@ public class Main {
 
         double[][] blockA = new double[currentWork][matrixSize];
         MPI.COMM_WORLD.Scatterv(matrixA, 0, sendcount, displace, MPI.OBJECT, blockA, 0, currentWork, MPI.OBJECT, 0);
-        MPI.COMM_WORLD.Bcast(matrixB,0, matrixB.length, MPI.OBJECT,0);
+        MPI.COMM_WORLD.Bcast(matrixB, 0, matrixB.length, MPI.OBJECT, 0);
 
         MPI.COMM_WORLD.Barrier();
+        System.out.println("Row start: " + displace[rank] + " Row finish: " + (displace[rank]+sendcount[rank]) + " From task " + rank);
         double[][] subResult = Methods.multiply(blockA, matrixB);
 
-        double[][] result = new double[matrixSize][matrixSize];
-        MPI.COMM_WORLD.Gatherv(subResult,0, subResult.length, MPI.OBJECT, result,0, sendcount, displace, MPI.OBJECT,0);
+        MPI.COMM_WORLD.Gatherv(subResult, 0, subResult.length, MPI.OBJECT, result, 0, sendcount, displace, MPI.OBJECT, 0);
 
         if(rank == MASTER){
             endTime = System.currentTimeMillis();
             //Methods.print(result);
-            System.out.println("Time: " + (endTime-startTime));
+            System.out.println("Time: " +(endTime-startTime) + " ms");
         }
         MPI.Finalize();
     }

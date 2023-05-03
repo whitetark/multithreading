@@ -9,10 +9,10 @@ public class Main {
 
         Journal journal = new Journal(groups, 2);
 
-        Teacher teacher1 = new Teacher(0, journal, 1);
-        Teacher assistant1 = new Teacher(1, journal, -1);
-        Teacher assistant2 = new Teacher(2, journal, -1);
-        Teacher assistant3 = new Teacher(3, journal, -1);
+        Teacher teacher1 = new Teacher(0, journal);
+        Teacher assistant1 = new Teacher(1, journal);
+        Teacher assistant2 = new Teacher(2, journal);
+        Teacher assistant3 = new Teacher(3, journal);
 
         teacher1.start();
         assistant1.start();

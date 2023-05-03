@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="a815140c-47b6-4ef6-bfc3-14fb89753ff0" name="Changes" comment="" />
+    <list default="true" id="a815140c-47b6-4ef6-bfc3-14fb89753ff0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../lab02/src/Algorithms/Striped.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab02/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lab02/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab02/src/Threads/StripedThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schedule/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/schedule/Group.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schedule/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/schedule/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schedule/Teacher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/schedule/Teacher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab06/src/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lab06/src/Block.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab06/src/Nonblock.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lab06/src/Nonblock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab07/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lab07/src/Main.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,10 +25,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="2OjTjs8XmlndyDaClABc2CSXaJd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/WebThings/multithreading/lab04"
+    "last_opened_file_path": "D:/WebThings/multithreading/lab03"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

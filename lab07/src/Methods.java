@@ -25,32 +25,6 @@ public class Methods {
         return result;
     }
 
-    public static double[][] getBlock(double[][] matrix, int start, int finish, int cols){
-        double[][] result = new double[finish - start + 1][cols];
-        int resultIndex = 0;
-        for(int i = start; i < finish; i++){
-            double[] temp = new double[cols];
-            for(int j = 0; j < cols; j++){
-                temp[j] = matrix[i][j];
-            }
-            result[resultIndex] = temp;
-            resultIndex++;
-        }
-        return result;
-    }
-
-    public static double[][] addBlock(double[][] part, double[][] matrix, int start, int finish){
-        double[][] result = matrix;
-        int partRowIndex= 0;
-        for(int i = start; i < finish; i++){
-            for(int j = 0; j < matrix[0].length; j++){
-                result[i][j] = part[partRowIndex][j];
-            }
-            partRowIndex++;
-        }
-        return result;
-    }
-
     public static void print(double[][] matrix){
         for(int i = 0 ;i < matrix.length; i++){
             for(int j = 0; j < matrix[i].length; j++){

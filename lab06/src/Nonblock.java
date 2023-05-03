@@ -12,7 +12,8 @@ public class Nonblock {
         double[][] matrixA = Methods.generateMatrix(matrixSize);
         double[][] matrixB = Methods.generateMatrix(matrixSize);
         double[][] result = new double[matrixSize][matrixSize];
-        double startTime, endTime;
+        long startTime = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis();
 
         MPI.Init(args);
         int size = MPI.COMM_WORLD.Size();
@@ -27,8 +28,8 @@ public class Nonblock {
         }
 
         if(rank == MASTER){
+            System.out.println("Matrix Size is " + matrixSize);
             System.out.println("Started with " + size + " tasks");
-            startTime = MPI.Wtime();
             int work = matrixSize / countOfWorkers;
             int extra = matrixSize % countOfWorkers;
             for(int worker = 1; worker <= countOfWorkers; worker++){
@@ -68,10 +69,10 @@ public class Nonblock {
 
                 Methods.addBlock(openedResult, result, rowStart[0], rowFinish[0]);
             }
-            endTime = MPI.Wtime();
+            endTime = System.currentTimeMillis();
             System.out.println("Result :");
             //Methods.print(result);
-            System.out.println(endTime-startTime + " seconds");
+            System.out.println("Time: " +(endTime-startTime) + " ms");
         } else {
             int[] rowStart = new int[1];
             int[] rowFinish = new int[1];
@@ -89,7 +90,7 @@ public class Nonblock {
 
             rec3.Wait();
             rec4.Wait();
-            System.out.println("Row start: " + rowStart[0] + " Row finish " + rowFinish[0] + " From task " + rank);
+            System.out.println("Row start: " + rowStart[0] + " Row finish: " + rowFinish[0] + " From task " + rank);
 
             double[][] subResult = Methods.multiply(openedBlockA, openedMatrixB);
 

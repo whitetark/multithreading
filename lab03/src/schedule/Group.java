@@ -20,7 +20,7 @@ public class Group {
         System.out.print("Group " + name + ": ");
     }
     private void generateGroup(int countStudents){
-        for(int i =0;i<countStudents;i++){
+        for(int i = 0; i < countStudents;i++){
             students.add(new Student());
         }
     }

@@ -3,20 +3,9 @@ package schedule;
 public class Teacher extends Thread {
     private int id;
     private Journal journal;
-    public Teacher(int id, Journal journal, int priority){
+    public Teacher(int id, Journal journal){
         this.id = id;
         this.journal = journal;
-        switch(priority){
-            case -1:
-                setPriority(Thread.MIN_PRIORITY);
-                break;
-            case 1:
-                setPriority(Thread.MAX_PRIORITY);
-                break;
-            default:
-                setPriority(Thread.NORM_PRIORITY);
-                break;
-        }
     }
     @Override
     public void run() {

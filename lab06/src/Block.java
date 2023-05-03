@@ -2,7 +2,7 @@ import mpi.*;
 
 import static java.lang.System.exit;
 public class Block {
-    private static int matrixSize = 1000;
+    private static int matrixSize = 3000;
     private static int MASTER = 0;
     private static int FROM_MASTER = 1;
     private static int FROM_WORKER = 1;
@@ -11,7 +11,8 @@ public class Block {
         double[][] matrixA = Methods.generateMatrix(matrixSize);
         double[][] matrixB = Methods.generateMatrix(matrixSize);
         double[][] result = new double[matrixSize][matrixSize];
-        double startTime, endTime;
+        long startTime = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis();
 
         MPI.Init(args);
         int size = MPI.COMM_WORLD.Size();
@@ -26,8 +27,8 @@ public class Block {
         }
 
         if(rank == MASTER){
+            System.out.println("Matrix Size is " + matrixSize);
             System.out.println("Started with " + size + " tasks");
-            startTime = MPI.Wtime();
             int work = matrixSize / countOfWorkers;
             int extra = matrixSize % countOfWorkers;
             for(int worker = 1; worker <= countOfWorkers; worker++){
@@ -57,10 +58,10 @@ public class Block {
 
                 Methods.addBlock(openedResult, result, rowStart[0], rowFinish[0]);
             }
-            endTime = MPI.Wtime();
+            endTime = System.currentTimeMillis();
             System.out.println("Result: ");
-            Methods.print(result);
-            System.out.println(endTime-startTime + " seconds");
+            //Methods.print(result);
+            System.out.println("Time: " + (endTime-startTime) + " ms");
         } else {
             int[] rowStart = new int[1];
             int[] rowFinish = new int[1];
@@ -73,7 +74,7 @@ public class Block {
 
             MPI.COMM_WORLD.Recv(openedBlockA, 0, openedBlockA.length, MPI.OBJECT, MASTER, FROM_MASTER);
             MPI.COMM_WORLD.Recv(openedMatrixB, 0, openedMatrixB.length, MPI.OBJECT, MASTER, FROM_MASTER);
-            System.out.println("Row start: " + rowStart[0] + " Row finish " + rowFinish[0] + " From task " + rank);
+            System.out.println("Row start: " + rowStart[0] + " Row finish: " + rowFinish[0] + " From task " + rank);
 
             double[][] subResult = Methods.multiply(openedBlockA, openedMatrixB);
 
