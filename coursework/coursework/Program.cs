@@ -1,2 +1,23 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using coursework;
+
+//int[][] graph = new int[][]
+//{
+//        new int[]{0, 7, -1, -1, 10},
+//        new int[]{-1, 0, 3, -1, 4},
+//        new int[]{-1, -1, 0, 5, -1},
+//        new int[]{-1, -1, -1, 0, -1},
+//        new int[]{-1, -1, -1, 2, 0}
+//};
+
+Console.Write("Num Of Nodes: ");
+int N = int.Parse(Console.ReadLine());
+int[][] graph = Methods.CreateMatrix(N);
+Methods.Print(graph);
+
+
+var startTime = DateTime.Now;
+var result = Dijkstra.Count(graph, 0);
+var timeNaive = DateTime.Now - startTime;
+Console.WriteLine($"Main Thread: Time {timeNaive}");
+Methods.Print(result);
+
