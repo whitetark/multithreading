@@ -15,14 +15,14 @@ int[][] graph = new int[][]
 Methods.Print(graph);
 
 var startTime = DateTime.Now;
-var result = Dijkstra.Count(graph, 0);
+var result = Dijkstra.Count(graph);
 var timeNaive = DateTime.Now - startTime;
 Console.WriteLine($"Main Thread: Time {timeNaive}");
 Methods.Print(result);
 
 int numOfThreads = 4;
 startTime = DateTime.Now;
-result = DijkstraParallel.Count(graph, 0, numOfThreads);
+result = DijkstraParallel.Count(graph, numOfThreads);
 var timeParallel = DateTime.Now - startTime;
 Console.WriteLine($"Number Of Threads: {numOfThreads}, Time: {timeParallel}");
 Methods.Print(result);

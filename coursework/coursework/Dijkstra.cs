@@ -9,7 +9,7 @@ namespace coursework
     public class Dijkstra
     {
         public const int IINF = 2 << 32 - 47;
-        public static int[] Count(int[][] graph, int src)
+        public static int[] Count(int[][] graph)
         {
             bool[] visited = new bool[graph.Length];
             int[] result = new int[graph.Length];
@@ -20,8 +20,8 @@ namespace coursework
                 result[i] = IINF;
             } 
 
-            visited[src] = true;
-            result[src] = 0;
+            visited[0] = true;
+            result[0] = 0;
 
             for (int count = 0; count < graph.Length - 1; count++)
             {

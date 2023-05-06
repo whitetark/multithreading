@@ -8,7 +8,7 @@ namespace coursework
 {
     public class Methods
     {
-        public static int[][] CreateMatrix(int size, int? value = null)
+        public static int[][] CreateMatrix(int size)
         {
             var matrix = new int[size][];
             var random = new Random();
@@ -19,7 +19,7 @@ namespace coursework
                 {
                     if (i != j)
                     {
-                        matrix[i][j] = value ?? random.Next(1,10);
+                        matrix[i][j] = random.Next(1,10);
                     }
                     else
                     {
