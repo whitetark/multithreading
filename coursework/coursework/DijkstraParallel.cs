@@ -13,6 +13,7 @@ namespace coursework
         {
             bool[] visited = new bool[graph.Length];
             int[] result = new int[graph.Length];
+
             for (int i = 0; i < graph.Length; i++)
             {
                 visited[i] = false;

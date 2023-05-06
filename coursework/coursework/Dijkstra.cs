@@ -8,6 +8,7 @@ namespace coursework
 {
     public class Dijkstra
     {
+        public const int IINF = 2 << 32 - 47;
         public static int[] Count(int[][] graph)
         {
             bool[] visited = new bool[graph.Length];
@@ -16,7 +17,7 @@ namespace coursework
             for (int i = 0; i < graph.Length; i++)
             {
                 visited[i] = false;
-                result[i] = int.MaxValue;
+                result[i] = IINF;
             } 
 
             result[0] = 0;
@@ -24,7 +25,7 @@ namespace coursework
             for (int count = 1; count < graph.Length; count++)
             {
                 int minI = -1;
-                int min = int.MaxValue;
+                int min = IINF;
 
                 for (int j = 0; j < graph.Length; j++)
                 {
