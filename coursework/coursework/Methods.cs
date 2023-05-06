@@ -31,7 +31,7 @@ namespace coursework
         }
         public static void Print(int[] arr)
         {
-            Console.Write("Vertex     Distance " + "from Source\n");
+            Console.Write("Vertex           Distance " + "from Source\n");
             for (int i = 0; i < arr.Length; i++)
             {
                 Console.Write(i+1 + " \t\t " + arr[i] + "\n");

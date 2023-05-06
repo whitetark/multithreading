@@ -8,7 +8,6 @@ namespace coursework
 {
     public class Dijkstra
     {
-        public const int IINF = 2 << 32 - 47;
         public static int[] Count(int[][] graph)
         {
             bool[] visited = new bool[graph.Length];
@@ -17,42 +16,36 @@ namespace coursework
             for (int i = 0; i < graph.Length; i++)
             {
                 visited[i] = false;
-                result[i] = IINF;
+                result[i] = int.MaxValue;
             } 
 
-            visited[0] = true;
             result[0] = 0;
 
-            for (int count = 0; count < graph.Length - 1; count++)
+            for (int count = 1; count < graph.Length; count++)
             {
+                int minI = -1;
+                int min = int.MaxValue;
+
+                for (int j = 0; j < graph.Length; j++)
+                {
+                    if (!visited[j] && result[j] < min)
+                    {
+                        minI = j;
+                        min = result[j];
+                    }
+                }
+                visited[minI] = true;
+
                 for (int i = 0; i < graph.Length; i++)
                 {
                     for (int j = 0; j < graph.Length; j++)
                     {
-                        if (graph[i][j] != -1)
+                        if (graph[i][j] != -1 && !visited[j])
                         {
-                            if (!visited[j])
-                            {
-                                result[j] = Math.Min(result[j], result[i] + graph[i][j]);
-                            }
+                            result[j] = Math.Min(result[j], result[i] + graph[i][j]);
                         }
                     }
                 }
-                int minI = -1;
-                int min = IINF;
-
-                for (int j = 0; j < graph.Length; j++)
-                {
-                    if (!visited[j])
-                    {
-                        if (result[j] < min)
-                        {
-                            minI = j;
-                            min = result[j];
-                        }
-                    }
-                }
-                visited[minI] = true;
             }
 
             return result;

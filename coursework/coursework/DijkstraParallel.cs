@@ -19,11 +19,23 @@ namespace coursework
                 result[i] = IINF;
             }
 
-            visited[0] = true;
             result[0] = 0;
 
-            for (int count = 0; count < graph.Length - 1; count++)
+            for (int count = 1; count < graph.Length; count++)
             {
+                int minI = -1;
+                int min = IINF;
+
+                for (int j = 0; j < graph.Length; j++)
+                {
+                    if (!visited[j] && result[j] < min)
+                    {
+                        minI = j;
+                        min = result[j];
+                    }
+                }
+                visited[minI] = true;
+
                 var tasks = new List<Task>();
                 var work = graph.Length / numOfThreads;
                 for (int i = 0; i < graph.Length; i += work)
@@ -33,21 +45,6 @@ namespace coursework
                 }
 
                 Task.WaitAll(tasks.ToArray());
-                int minI = -1;
-                int min = IINF;
-
-                for (int j = 0; j < graph.Length; j++)
-                {
-                    if (!visited[j])
-                    {
-                        if (result[j] < min)
-                        {
-                            minI = j;
-                            min = result[j];
-                        }
-                    }
-                }
-                visited[minI] = true;
             }
 
             return result;
@@ -60,12 +57,9 @@ namespace coursework
                 if (i >= graph.Length) return;
                 for (int j = 0; j < graph.Length; j++)
                 {
-                    if (graph[i][j] != -1)
+                    if (graph[i][j] != -1 && !visited[j])
                     {
-                        if (!visited[j])
-                        {
-                            result[j] = Math.Min(result[j], result[i] + graph[i][j]);
-                        }
+                        result[j] = Math.Min(result[j], result[i] + graph[i][j]);
                     }
                 }
             }
