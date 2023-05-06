@@ -8,7 +8,7 @@ namespace coursework
 {
     public class DijkstraParallel
     {
-        public const int IINF = 2 << 32 - 47;
+        public const int maxNumber = 15000;
         public static int[] Count(int[][] graph, int numOfThreads)
         {
             bool[] visited = new bool[graph.Length];
@@ -17,7 +17,7 @@ namespace coursework
             for (int i = 0; i < graph.Length; i++)
             {
                 visited[i] = false;
-                result[i] = IINF;
+                result[i] = maxNumber;
             }
 
             result[0] = 0;
@@ -25,7 +25,7 @@ namespace coursework
             for (int count = 1; count < graph.Length; count++)
             {
                 int minI = -1;
-                int min = IINF;
+                int min = maxNumber;
 
                 for (int j = 0; j < graph.Length; j++)
                 {

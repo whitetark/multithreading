@@ -19,7 +19,13 @@ namespace coursework
                 {
                     if (i != j)
                     {
-                        matrix[i][j] = random.Next(1,10);
+                        if ((random.Next(0, 10) * 10) < 33)
+                        {
+                            matrix[i][j] = -1;
+                        } else
+                        {
+                            matrix[i][j] = random.Next(1, 9);
+                        }
                     }
                     else
                     {
@@ -34,23 +40,42 @@ namespace coursework
             Console.Write("Vertex           Distance " + "from Source\n");
             for (int i = 0; i < arr.Length; i++)
             {
-                Console.Write(i+1 + " \t\t " + arr[i] + "\n");
-                //Console.Write(arr[i] + " ");
+                Console.Write(i + " \t\t " + arr[i] + "\n");
             }
             Console.Write("\n\n");
         }
         public static void Print(int[][] matrix)
         {
-            Console.Write("Your Adjacency Matrix\n");
+            Console.Write("       ");
             for (int i = 0; i < matrix.Length; i++)
             {
-                for(int j = 0;j < matrix[i].Length; j++)
-                {
-                    Console.Write(matrix[i][j] + " ");
-                }
-                Console.Write("\n");
+                Console.Write("{0}  ", i);
             }
-            Console.Write("\n\n");
+
+            Console.WriteLine();
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                Console.Write("{0} | [ ", i);
+
+                for (int j = 0; j < matrix.Length; j++)
+                {
+                    if (matrix[i][j] == -1)
+                    {
+                        Console.Write(" .,");
+                    }
+                    else if (matrix[i][j] == 0)
+                    {
+                        Console.Write(" &,");
+                    }
+                    else 
+                    {
+                        Console.Write(" {0},", matrix[i][j]);
+                    }
+                }
+                Console.Write(" ]\r\n");
+            }
+            Console.Write("\r\n");
         }
     }
 }
