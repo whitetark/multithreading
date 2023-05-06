@@ -6,38 +6,33 @@ using System.Threading.Tasks;
 
 namespace coursework
 {
-    public class Dijkstra
+    public class DijkstraParallel
     {
         public const int IINF = 2 << 32 - 47;
-        public static int[] Count(int[][] graph, int src)
+        public static int[] Count(int[][] graph, int src, int numOfThreads)
         {
             bool[] visited = new bool[graph.Length];
             int[] result = new int[graph.Length];
-
             for (int i = 0; i < graph.Length; i++)
             {
                 visited[i] = false;
                 result[i] = IINF;
-            } 
+            }
 
             visited[src] = true;
             result[src] = 0;
 
             for (int count = 0; count < graph.Length - 1; count++)
             {
-                for (int i = 0; i < graph.Length; i++)
+                var tasks = new List<Task>();
+                var work = graph.Length / numOfThreads;
+                for (int i = 0; i < graph.Length; i += work)
                 {
-                    for (int j = 0; j < graph.Length; j++)
-                    {
-                        if (graph[i][j] != -1)
-                        {
-                            if (!visited[j])
-                            {
-                                result[j] = Math.Min(result[j], result[i] + graph[i][j]);
-                            }
-                        }
-                    }
+                    var start = i;
+                    tasks.Add(Task.Factory.StartNew(() => SubResult(graph, start, work, visited, result)));
                 }
+
+                Task.WaitAll(tasks.ToArray());
                 int minI = -1;
                 int min = IINF;
 
@@ -56,6 +51,24 @@ namespace coursework
             }
 
             return result;
+        }
+
+        public static void SubResult(int[][] graph, int start, int work, bool[] visited, int[] result)
+        {
+            for (int i = start; i < start + work; i++)
+            {
+                if (i >= graph.Length) return;
+                for (int j = 0; j < graph.Length; j++)
+                {
+                    if (graph[i][j] != -1)
+                    {
+                        if (!visited[j])
+                        {
+                            result[j] = Math.Min(result[j], result[i] + graph[i][j]);
+                        }
+                    }
+                }
+            }
         }
     }
 }
