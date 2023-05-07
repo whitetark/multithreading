@@ -24,18 +24,18 @@ namespace coursework
 
             for (int count = 1; count < graph.Length; count++)
             {
-                int minI = -1;
+                int nearestIndex = -1;
                 int min = maxNumber;
 
                 for (int j = 0; j < graph.Length; j++)
                 {
                     if (!visited[j] && result[j] < min)
                     {
-                        minI = j;
+                        nearestIndex = j;
                         min = result[j];
                     }
                 }
-                visited[minI] = true;
+                visited[nearestIndex] = true;
 
                 for (int i = 0; i < graph.Length; i++)
                 {

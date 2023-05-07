@@ -23,22 +23,22 @@
 //};
 
 Console.Write("Num Of Nodes: ");
-int N = int.Parse(Console.ReadLine());
-int[][] graph = Methods.CreateMatrix(N);
+int nodes = int.Parse(Console.ReadLine());
+int[][] graph = Methods.CreateMatrix(nodes);
 
 Methods.Print(graph);
 
 var startTime = DateTime.Now;
 var result = Dijkstra.Count(graph);
 var timeNaive = DateTime.Now - startTime;
-Console.WriteLine($"Main Thread: Time {timeNaive}");
+Console.WriteLine($"Sequential Algorithm. Time: {timeNaive}");
 Methods.Print(result);
 
 int numOfThreads = 4;
 startTime = DateTime.Now;
 result = DijkstraParallel.Count(graph, numOfThreads);
 var timeParallel = DateTime.Now - startTime;
-Console.WriteLine($"Number Of Threads: {numOfThreads}, Time: {timeParallel}");
+Console.WriteLine($"Parallel Algorithm. Number Of Threads: {numOfThreads}, Time: {timeParallel}");
 Methods.Print(result);
 
 Console.WriteLine($"SpeedUp: {timeNaive / timeParallel}");
