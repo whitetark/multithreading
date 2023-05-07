@@ -22,7 +22,7 @@ namespace coursework
 
             result[0] = 0;
 
-            for (int count = 1; count < graph.Length; count++)
+            for (int count = 0; count < graph.Length; count++)
             {
                 int nearestIndex = -1;
                 int min = maxNumber;

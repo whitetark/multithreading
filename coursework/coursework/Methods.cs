@@ -77,5 +77,34 @@ namespace coursework
             }
             Console.Write("\r\n");
         }
+        public static void Experiment()
+        {
+            int[] sizes = new int[] { 1000, 1500, 2000, 3000 };
+            int[] numOfThreads = new int[] { 16 };
+            foreach (int size in sizes)
+            {
+                foreach(int numOfThread in numOfThreads)
+                {
+                    int[][] graph = Methods.CreateMatrix(size);
+                    var startTime = DateTime.Now;
+                    var result = Dijkstra.Count(graph);
+                    var timeNaive = DateTime.Now - startTime;
+
+                    TimeSpan timeParallel = new TimeSpan();
+                    for (int i = 0; i < 3; i++)
+                    {
+                        startTime = DateTime.Now;
+                        result = DijkstraParallel.Count(graph, numOfThread);
+                        timeParallel += DateTime.Now - startTime;
+                    }
+
+                    timeParallel = timeParallel / 3;
+
+                    Console.WriteLine($"Sequential Algorithm. Size: {size}, Time: {timeNaive}");
+                    Console.WriteLine($"Parallel Algorithm. Number Of Threads: {numOfThread}, Size: {size}, Average Time: {timeParallel}");
+                    Console.WriteLine($"Average SpeedUp: {timeNaive / timeParallel}\n");
+                }
+            }
+        }
     }
 }

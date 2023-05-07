@@ -1,4 +1,13 @@
 ﻿using coursework;
+using System.Xml.Linq;
+
+Methods.Experiment();
+
+//Console.Write("Do You Want To Print Graph? Choose a number: 1/0\n");
+//int printGraph = int.Parse(Console.ReadLine());
+
+//Console.Write("Do You Want To Print Result? Choose a number: 1/0\n");
+//int printResult = int.Parse(Console.ReadLine());
 
 //int[][] graph = new int[][]
 //{
@@ -22,24 +31,29 @@
 //        new int[]{ -1, -1,  2, -1, -1, -1,  16,  7,  0 }
 //};
 
-Console.Write("Num Of Nodes: ");
-int nodes = int.Parse(Console.ReadLine());
-int[][] graph = Methods.CreateMatrix(nodes);
 
-Methods.Print(graph);
+//while (true)
+//{
+//    Console.WriteLine("Num Of Nodes Or 0 To Leave: ");
+//    int nodes = int.Parse(Console.ReadLine());
+//    if(nodes == 0) { break; }
+//    //int[][] graph = Methods.CreateMatrix(nodes);
+//    if (printGraph == 1){ Methods.Print(graph); }
 
-var startTime = DateTime.Now;
-var result = Dijkstra.Count(graph);
-var timeNaive = DateTime.Now - startTime;
-Console.WriteLine($"Sequential Algorithm. Time: {timeNaive}");
-Methods.Print(result);
+//    var startTime = DateTime.Now;
+//    var result = Dijkstra.Count(graph);
+//    var timeNaive = DateTime.Now - startTime;
+//    Console.WriteLine($"Sequential Algorithm. Time: {timeNaive}");
+//    if (printResult == 1) { Methods.Print(result); }
 
-int numOfThreads = 4;
-startTime = DateTime.Now;
-result = DijkstraParallel.Count(graph, numOfThreads);
-var timeParallel = DateTime.Now - startTime;
-Console.WriteLine($"Parallel Algorithm. Number Of Threads: {numOfThreads}, Time: {timeParallel}");
-Methods.Print(result);
 
-Console.WriteLine($"SpeedUp: {timeNaive / timeParallel}");
+//    int numOfThreads = 4;
+//    startTime = DateTime.Now;
+//    result = DijkstraParallel.Count(graph, numOfThreads);
+//    var timeParallel = DateTime.Now - startTime;
+//    Console.WriteLine($"Parallel Algorithm. Number Of Threads: {numOfThreads}, Time: {timeParallel}");
+//    if (printResult == 1) { Methods.Print(result); }
+
+//    Console.WriteLine($"SpeedUp: {timeNaive / timeParallel}\n");
+//}
 
