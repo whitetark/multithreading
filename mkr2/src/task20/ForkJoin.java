@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.RecursiveTask;
 
+//Коментар:
+// пул десяти потоків не створений
+//
+//if(numbers.size() > 2){ // Ви реалізували звичайний каскадний, а не модифікований каскадний
+
 public class ForkJoin extends RecursiveTask<Integer> {
     public List<Integer> numbers;
     public ForkJoin(List<Integer> numbers){
